@@ -1,0 +1,405 @@
+--- FROC Analysis (Total Nodules: 314) ---
+
+  Sens @ 0.125 FPs/Img: 0.0573
+
+  Sens @  0.25 FPs/Img: 0.0860
+
+  Sens @   0.5 FPs/Img: 0.1369
+
+  Sens @   1.0 FPs/Img: 0.1752
+
+  Sens @   2.0 FPs/Img: 0.2293
+
+  Sens @   4.0 FPs/Img: 0.2866
+
+  Sens @   8.0 FPs/Img: 0.3822
+
+
+
+>>> EPOCH 1 RESULT: Train Loss: 0.0834 | Val Loss: 0.0399 | FROC (1.0 FP): 0.1752
+
+>>> New Best Model Saved! <<<
+
+--------------------------------------------------
+
+
+
+Ep 2 [0/123] Loss: 0.0880
+
+Ep 2 [10/123] Loss: 0.0724
+
+Ep 2 [20/123] Loss: 0.0426
+
+Ep 2 [30/123] Loss: 0.0931
+
+Ep 2 [40/123] Loss: 0.0375
+
+Ep 2 [50/123] Loss: 0.0496
+
+Ep 2 [60/123] Loss: 0.0420
+
+Ep 2 [70/123] Loss: 0.0498
+
+Ep 2 [80/123] Loss: 0.0451
+
+Ep 2 [90/123] Loss: 0.0336
+
+Ep 2 [100/123] Loss: 0.0367
+
+Ep 2 [110/123] Loss: 0.0365
+
+Ep 2 [120/123] Loss: 0.0385
+
+Generating predictions for FROC...
+
+
+
+--- FROC Analysis (Total Nodules: 314) ---
+
+  Sens @ 0.125 FPs/Img: 0.3280
+
+  Sens @  0.25 FPs/Img: 0.3790
+
+  Sens @   0.5 FPs/Img: 0.4586
+
+  Sens @   1.0 FPs/Img: 0.5541
+
+  Sens @   2.0 FPs/Img: 0.6401
+
+  Sens @   4.0 FPs/Img: 0.7197
+
+  Sens @   8.0 FPs/Img: 0.7197
+
+
+
+>>> EPOCH 2 RESULT: Train Loss: 0.0489 | Val Loss: 0.0236 | FROC (1.0 FP): 0.5541
+
+>>> New Best Model Saved! <<<
+
+--------------------------------------------------
+
+
+
+Ep 3 [0/123] Loss: 0.0335
+
+Ep 3 [10/123] Loss: 0.0369
+
+Ep 3 [20/123] Loss: 0.0487
+
+Ep 3 [30/123] Loss: 0.0603
+
+Ep 3 [40/123] Loss: 0.0332
+
+Ep 3 [50/123] Loss: 0.0203
+
+Ep 3 [60/123] Loss: 0.0326
+
+Ep 3 [70/123] Loss: 0.0310
+
+Ep 3 [80/123] Loss: 0.0260
+
+Ep 3 [90/123] Loss: 0.0362
+
+Ep 3 [100/123] Loss: 0.0407
+
+Ep 3 [110/123] Loss: 0.0294
+
+Ep 3 [120/123] Loss: 0.0464
+
+Generating predictions for FROC...
+
+
+
+--- FROC Analysis (Total Nodules: 314) ---
+
+  Sens @ 0.125 FPs/Img: 0.4363
+
+  Sens @  0.25 FPs/Img: 0.5223
+
+  Sens @   0.5 FPs/Img: 0.5987
+
+  Sens @   1.0 FPs/Img: 0.6879
+
+  Sens @   2.0 FPs/Img: 0.7548
+
+  Sens @   4.0 FPs/Img: 0.7834
+
+  Sens @   8.0 FPs/Img: 0.7834
+
+
+
+>>> EPOCH 3 RESULT: Train Loss: 0.0357 | Val Loss: 0.0228 | FROC (1.0 FP): 0.6879
+
+>>> New Best Model Saved! <<<
+
+--------------------------------------------------
+
+
+
+Ep 4 [0/123] Loss: 0.0381
+
+Ep 4 [10/123] Loss: 0.0252
+
+Ep 4 [20/123] Loss: 0.0453
+
+Ep 4 [30/123] Loss: 0.0363
+
+Ep 4 [40/123] Loss: 0.0295
+
+Ep 4 [50/123] Loss: 0.0191
+
+Ep 4 [60/123] Loss: 0.0308
+
+Ep 4 [70/123] Loss: 0.0305
+
+Ep 4 [80/123] Loss: 0.0204
+
+Ep 4 [90/123] Loss: 0.0327
+
+Ep 4 [100/123] Loss: 0.0286
+
+Ep 4 [110/123] Loss: 0.0249
+
+Ep 4 [120/123] Loss: 0.0264
+
+Generating predictions for FROC...
+
+
+
+--- FROC Analysis (Total Nodules: 314) ---
+
+  Sens @ 0.125 FPs/Img: 0.4745
+
+  Sens @  0.25 FPs/Img: 0.5637
+
+  Sens @   0.5 FPs/Img: 0.6369
+
+  Sens @   1.0 FPs/Img: 0.6369
+
+  Sens @   2.0 FPs/Img: 0.6369
+
+  Sens @   4.0 FPs/Img: 0.6369
+
+  Sens @   8.0 FPs/Img: 0.6369
+
+
+
+>>> EPOCH 4 RESULT: Train Loss: 0.0291 | Val Loss: 0.0277 | FROC (1.0 FP): 0.6369
+
+--------------------------------------------------
+
+
+
+Ep 5 [0/123] Loss: 0.0279
+
+Ep 5 [10/123] Loss: 0.0199
+
+Ep 5 [20/123] Loss: 0.0266
+
+Ep 5 [30/123] Loss: 0.0203
+
+Ep 5 [40/123] Loss: 0.0256
+
+Ep 5 [50/123] Loss: 0.0295
+
+Ep 5 [60/123] Loss: 0.0301
+
+Ep 5 [70/123] Loss: 0.0309
+
+Ep 5 [80/123] Loss: 0.0205
+
+Ep 5 [90/123] Loss: 0.0254
+
+Ep 5 [100/123] Loss: 0.0179
+
+Ep 5 [110/123] Loss: 0.0181
+
+Ep 5 [120/123] Loss: 0.0345
+
+Generating predictions for FROC...
+
+
+
+--- FROC Analysis (Total Nodules: 314) ---
+
+  Sens @ 0.125 FPs/Img: 0.5096
+
+  Sens @  0.25 FPs/Img: 0.6146
+
+  Sens @   0.5 FPs/Img: 0.6847
+
+  Sens @   1.0 FPs/Img: 0.7293
+
+  Sens @   2.0 FPs/Img: 0.7803
+
+  Sens @   4.0 FPs/Img: 0.8153
+
+  Sens @   8.0 FPs/Img: 0.8153
+
+
+
+>>> EPOCH 5 RESULT: Train Loss: 0.0257 | Val Loss: 0.0246 | FROC (1.0 FP): 0.7293
+
+>>> New Best Model Saved! <<<
+
+--------------------------------------------------
+
+
+
+Ep 6 [0/123] Loss: 0.0331
+
+Ep 6 [10/123] Loss: 0.0222
+
+Ep 6 [20/123] Loss: 0.0256
+
+Ep 6 [30/123] Loss: 0.0152
+
+Ep 6 [40/123] Loss: 0.0259
+
+Ep 6 [50/123] Loss: 0.0260
+
+Ep 6 [60/123] Loss: 0.0212
+
+Ep 6 [70/123] Loss: 0.0201
+
+Ep 6 [80/123] Loss: 0.0181
+
+Ep 6 [90/123] Loss: 0.0129
+
+Ep 6 [100/123] Loss: 0.0083
+
+Ep 6 [110/123] Loss: 0.0214
+
+Ep 6 [120/123] Loss: 0.0170
+
+Generating predictions for FROC...
+
+
+
+--- FROC Analysis (Total Nodules: 314) ---
+
+  Sens @ 0.125 FPs/Img: 0.5892
+
+  Sens @  0.25 FPs/Img: 0.6529
+
+  Sens @   0.5 FPs/Img: 0.6943
+
+  Sens @   1.0 FPs/Img: 0.6943
+
+  Sens @   2.0 FPs/Img: 0.6943
+
+  Sens @   4.0 FPs/Img: 0.6943
+
+  Sens @   8.0 FPs/Img: 0.6943
+
+
+
+>>> EPOCH 6 RESULT: Train Loss: 0.0188 | Val Loss: 0.0280 | FROC (1.0 FP): 0.6943
+
+--------------------------------------------------
+
+
+
+Ep 7 [0/123] Loss: 0.0143
+
+Ep 7 [10/123] Loss: 0.0163
+
+Ep 7 [20/123] Loss: 0.0178
+
+Ep 7 [30/123] Loss: 0.0151
+
+Ep 7 [40/123] Loss: 0.0227
+
+Ep 7 [50/123] Loss: 0.0145
+
+Ep 7 [60/123] Loss: 0.0128
+
+Ep 7 [70/123] Loss: 0.0167
+
+Ep 7 [80/123] Loss: 0.0119
+
+Ep 7 [90/123] Loss: 0.0216
+
+Ep 7 [100/123] Loss: 0.0109
+
+Ep 7 [110/123] Loss: 0.0159
+
+Ep 7 [120/123] Loss: 0.0089
+
+Generating predictions for FROC...
+
+
+
+--- FROC Analysis (Total Nodules: 314) ---
+
+  Sens @ 0.125 FPs/Img: 0.6274
+
+  Sens @  0.25 FPs/Img: 0.6688
+
+  Sens @   0.5 FPs/Img: 0.6688
+
+  Sens @   1.0 FPs/Img: 0.6688
+
+  Sens @   2.0 FPs/Img: 0.6688
+
+  Sens @   4.0 FPs/Img: 0.6688
+
+  Sens @   8.0 FPs/Img: 0.6688
+
+
+
+>>> EPOCH 7 RESULT: Train Loss: 0.0159 | Val Loss: 0.0302 | FROC (1.0 FP): 0.6688
+
+--------------------------------------------------
+
+
+
+Ep 8 [0/123] Loss: 0.0068
+
+Ep 8 [10/123] Loss: 0.0131
+
+Ep 8 [20/123] Loss: 0.0150
+
+Ep 8 [30/123] Loss: 0.0158
+
+Ep 8 [40/123] Loss: 0.0162
+
+Ep 8 [50/123] Loss: 0.0099
+
+Ep 8 [60/123] Loss: 0.0143
+
+Ep 8 [70/123] Loss: 0.0131
+
+Ep 8 [80/123] Loss: 0.0091
+
+Ep 8 [90/123] Loss: 0.0160
+
+Ep 8 [100/123] Loss: 0.0133
+
+Ep 8 [110/123] Loss: 0.0138
+
+Ep 8 [120/123] Loss: 0.0183
+
+Generating predictions for FROC...
+
+
+
+--- FROC Analysis (Total Nodules: 314) ---
+
+  Sens @ 0.125 FPs/Img: 0.6210
+
+  Sens @  0.25 FPs/Img: 0.6592
+
+  Sens @   0.5 FPs/Img: 0.6592
+
+  Sens @   1.0 FPs/Img: 0.6592
+
+  Sens @   2.0 FPs/Img: 0.6592
+
+  Sens @   4.0 FPs/Img: 0.6592
+
+  Sens @   8.0 FPs/Img: 0.6592
+
+
+
+>>> EPOCH 8 RESULT: Train Loss: 0.0135 | Val Loss: 0.0327 | FROC (1.0 FP): 0.6592
