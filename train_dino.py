@@ -34,14 +34,14 @@ class Node21Dataset(Dataset):
         self.img_path = os.path.join(root, img_dir)
         self.df = pd.read_csv(os.path.join(root, csv_file))
         self.processor = processor
-        self.image_ids = self.df['filename'].unique()
+        self.image_ids = self.df['img_name'].unique()
 
     def __len__(self):
         return len(self.image_ids)
 
     def __getitem__(self, idx):
         img_id = self.image_ids[idx]
-        records = self.df[self.df['filename'] == img_id]
+        records = self.df[self.df['img_name'] == img_id]
         
         # Load .mha
         mha_path = os.path.join(self.img_path, img_id)
@@ -121,7 +121,7 @@ class DINOFasterRCNN(torch.nn.Module):
 
         anchor_generator = AnchorGenerator(
             sizes=((16, 32, 64, 128, 256),),
-            aspect_ratios=((0.5, 1.0, 2.0),) * 5
+            aspect_ratios=((0.5, 1.0, 2.0),)
         )
         
         roi_pooler = torchvision.ops.MultiScaleRoIAlign(
@@ -132,7 +132,7 @@ class DINOFasterRCNN(torch.nn.Module):
             backbone=BackboneWrapper(self.backbone),
             num_classes=num_classes,
             rpn_anchor_generator=anchor_generator,
-            box_roi_pool_roi_layers=roi_pooler,
+            box_roi_pool=roi_pooler,
             image_mean=[0,0,0], image_std=[1,1,1] # Skip internal normalization (done by processor)
         )
 
@@ -272,10 +272,13 @@ def main():
     model = DINOFasterRCNN(num_classes=CONFIG['num_classes'])
     model.to(CONFIG['device'])
 
+    backbone_ids = {id(p) for p in model.backbone.parameters()}
+    head_params = [p for p in model.detector.parameters() if id(p) not in backbone_ids]
+
     # Differential Learning Rates
     params = [
         {"params": model.backbone.parameters(), "lr": CONFIG['lr_backbone']},
-        {"params": model.detector.parameters(), "lr": CONFIG['lr_head']}
+        {"params": head_params, "lr": CONFIG['lr_head']}
     ]
     optimizer = torch.optim.AdamW(params, weight_decay=1e-4)
     lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.1)
