@@ -12,8 +12,8 @@ from torchvision.models.detection.rpn import AnchorGenerator
 from torchvision.ops import box_iou, nms
 
 CONFIG = {
-    "data_root": "./dataset_node21",
-    "images_dir": "cxr_images/proccessed_mha",
+    "data_root": "./node21",
+    "images_dir": "images",
     "metadata_file": "metadata.csv",
     "checkpoint_path": "current_best.pth", 
     "device": "cuda" if torch.cuda.is_available() else "cpu",
