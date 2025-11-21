@@ -11,29 +11,23 @@ from torchvision.models.detection import FasterRCNN
 from torchvision.models.detection.rpn import AnchorGenerator
 from torchvision.ops import nms, box_iou
 
-# ==========================================
-# 1. CONFIGURATION
-# ==========================================
 CONFIG = {
-    "data_root": "./dataset_node21",       
-    "images_dir": "cxr_images/proccessed_mha", 
+    "data_root": "./node21",       
+    "images_dir": "images", 
     "metadata_file": "metadata.csv",       # USE REAL METADATA ONLY
-    "batch_size": 4,                       
-    "lr_backbone": 1e-5,                   # Low LR to protect DINO weights
-    "lr_head": 1e-4,                       # Higher LR for new Head
-    "epochs": 15,
+    "batch_size": 32,                       
+    "lr_backbone": 4e-5,                   # Low LR to protect DINO weights
+    "lr_head": 4e-4,                       # Higher LR for new Head
+    "epochs": 25,
     "device": "cuda" if torch.cuda.is_available() else "cpu",
     "num_classes": 2,                      # Background + Nodule
-    "model_name": "microsoft/rad-dino-maira-2",
+    "model_name": "./dino_weights",
     "target_size": (518, 518),             # Must be multiple of 14
     "iou_threshold": 0.1                   # IoU > 0.1 counts as a "Hit" in medical AI
 }
 
 print(f"Running on: {CONFIG['device']}")
 
-# ==========================================
-# 2. CUSTOM DATASET
-# ==========================================
 class Node21Dataset(Dataset):
     def __init__(self, root, img_dir, csv_file, processor=None):
         self.root = root
@@ -105,9 +99,6 @@ class Node21Dataset(Dataset):
 def collate_fn(batch):
     return tuple(zip(*batch))
 
-# ==========================================
-# 3. MODEL ARCHITECTURE
-# ==========================================
 class DINOFasterRCNN(torch.nn.Module):
     def __init__(self, num_classes):
         super().__init__()
@@ -148,9 +139,6 @@ class DINOFasterRCNN(torch.nn.Module):
     def forward(self, images, targets=None):
         return self.detector(images, targets)
 
-# ==========================================
-# 4. METRICS: FROC & VALIDATION LOSS
-# ==========================================
 def calculate_froc_score(all_preds, all_gts, iou_thresh=0.1):
     """
     Calculates Sensitivity @ specific False Positives per Image (FROC analysis)
@@ -266,9 +254,6 @@ def evaluate_model(model, val_loader, device):
     
     return avg_val_loss, froc_score
 
-# ==========================================
-# 5. MAIN LOOP
-# ==========================================
 def main():
     # Setup
     processor = AutoImageProcessor.from_pretrained(CONFIG['model_name'])
