@@ -4,8 +4,11 @@ import pandas as pd
 import numpy as np
 import SimpleITK as sitk
 import cv2
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 import torchvision
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset, DataLoader, WeightedRandomSampler
 from transformers import AutoModel, AutoImageProcessor
 from torchvision.models.detection import FasterRCNN
 from torchvision.models.detection.rpn import AnchorGenerator
@@ -18,7 +21,7 @@ CONFIG = {
     "batch_size": 32,                       
     "lr_backbone": 4e-5,                   # Low LR to protect DINO weights
     "lr_head": 4e-4,                       # Higher LR for new Head
-    "epochs": 25,
+    "epochs": 15,
     "device": "cuda" if torch.cuda.is_available() else "cpu",
     "num_classes": 2,                      # Background + Nodule
     "model_name": "./dino_weights",
@@ -268,8 +271,20 @@ def main():
     train_size = int(0.8 * len(dataset))
     val_size = len(dataset) - train_size
     train_ds, val_ds = torch.utils.data.random_split(dataset, [train_size, val_size])
+
+    # Weighted Sampler to handle class imbalance
+    targets = []
+    for i in range(len(train_ds)):
+        _, target = train_ds[i]
+        has_nodule = len(target['boxes']) > 0
+        targets.append(1 if has_nodule else 0)
+    targets = torch.tensor(targets)
+    class_sample_count = torch.tensor([(targets == 0).sum(), (targets == 1).sum()])
+    weight = 1. / class_sample_count.float()
+    samples_weight = torch.tensor([weight[t] for t in targets])
+    sampler = WeightedRandomSampler(samples_weight, len(samples_weight))
     
-    train_loader = DataLoader(train_ds, batch_size=CONFIG['batch_size'], shuffle=True, collate_fn=collate_fn, num_workers=2)
+    train_loader = DataLoader(train_ds, batch_size=CONFIG['batch_size'], sampler=sampler, shuffle=False, collate_fn=collate_fn, num_workers=2)
     val_loader = DataLoader(val_ds, batch_size=2, shuffle=False, collate_fn=collate_fn, num_workers=2)
 
     # Model Init
@@ -289,6 +304,9 @@ def main():
     lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.1)
 
     best_froc = 0.0
+    train_loss_history = []
+    val_loss_history = []
+    froc_history = []
     print("Starting Training...")
 
     for epoch in range(CONFIG['epochs']):
@@ -316,7 +334,12 @@ def main():
         val_loss, val_froc = evaluate_model(model, val_loader, CONFIG['device'])
         lr_scheduler.step()
         
-        print(f"\n>>> EPOCH {epoch+1} RESULT: Train Loss: {epoch_loss/len(train_loader):.4f} | Val Loss: {val_loss:.4f} | FROC (1.0 FP): {val_froc:.4f}")
+        avg_train_loss = epoch_loss / len(train_loader)
+        print(f"\n>>> EPOCH {epoch+1} RESULT: Train Loss: {avg_train_loss:.4f} | Val Loss: {val_loss:.4f} | FROC (1.0 FP): {val_froc:.4f}")
+
+        train_loss_history.append(avg_train_loss)
+        val_loss_history.append(val_loss)
+        froc_history.append(val_froc)
         
         # Save Best Model
         if val_froc > best_froc:
@@ -332,6 +355,35 @@ def main():
             'loss': epoch_loss,
         }, "latest_checkpoint.pth")
         print("--------------------------------------------------\n")
+
+    # Plot metrics over epochs
+    epochs_range = range(1, len(train_loss_history) + 1)
+
+    plt.figure(figsize=(8, 5))
+    plt.plot(epochs_range, train_loss_history, label="Train Loss")
+    plt.plot(epochs_range, val_loss_history, label="Val Loss")
+    plt.xlabel("Epoch")
+    plt.ylabel("Loss")
+    plt.title("Training and Validation Loss")
+    plt.legend()
+    plt.grid(True, linestyle="--", linewidth=0.5)
+    loss_curve_path = "loss_curve.png"
+    plt.savefig(loss_curve_path, dpi=150, bbox_inches="tight")
+    plt.close()
+
+    plt.figure(figsize=(8, 5))
+    plt.plot(epochs_range, froc_history, label="Validation FROC (1.0 FP)")
+    plt.xlabel("Epoch")
+    plt.ylabel("FROC")
+    plt.title("Validation FROC Over Epochs")
+    plt.legend()
+    plt.grid(True, linestyle="--", linewidth=0.5)
+    froc_curve_path = "froc_curve.png"
+    plt.savefig(froc_curve_path, dpi=150, bbox_inches="tight")
+    plt.close()
+
+    print(f"Saved loss curve to {loss_curve_path}")
+    print(f"Saved FROC curve to {froc_curve_path}")
 
 if __name__ == "__main__":
     main()
