@@ -43,36 +43,33 @@ class Node21Dataset(Dataset):
         img_id = self.image_ids[idx]
         records = self.df[self.df['img_name'] == img_id]
         
-        # Load .mha
         mha_path = os.path.join(self.img_path, img_id)
         if not os.path.exists(mha_path):
             raise FileNotFoundError(f"Image not found: {mha_path}")
             
         image_obj = sitk.ReadImage(mha_path)
         image_np = sitk.GetArrayFromImage(image_obj) 
-        
         if image_np.ndim == 3: image_np = image_np[0]
-        # Normalize to 0-255
         image_np = ((image_np - image_np.min()) / (image_np.max() - image_np.min() + 1e-8) * 255).astype(np.uint8)
         image_rgb = cv2.cvtColor(image_np, cv2.COLOR_GRAY2RGB)
         
-        # Parse Boxes
         boxes = []
         labels = []
+        
         for _, row in records.iterrows():
             x, y, w, h = row['x'], row['y'], row['width'], row['height']
+            
+            # Sanity Check: Ignore boxes with 0 or negative area
+            if w <= 0 or h <= 0:
+                continue 
+                
             boxes.append([x, y, x + w, y + h])
-            labels.append(1) 
+            labels.append(1)
 
+        # Convert to tensor
         boxes = torch.as_tensor(boxes, dtype=torch.float32)
         labels = torch.as_tensor(labels, dtype=torch.int64)
         
-        # Handle empty boxes (negative samples)
-        if len(boxes) == 0:
-            boxes = torch.zeros((0, 4), dtype=torch.float32)
-            labels = torch.zeros((0,), dtype=torch.int64)
-
-        # Resize Image & Boxes
         orig_h, orig_w = image_rgb.shape[:2]
         new_h, new_w = CONFIG['target_size']
         image_resized = cv2.resize(image_rgb, (new_w, new_h))
@@ -80,12 +77,20 @@ class Node21Dataset(Dataset):
         if len(boxes) > 0:
             scale_x = new_w / orig_w
             scale_y = new_h / orig_h
+            
             boxes[:, 0] *= scale_x
             boxes[:, 2] *= scale_x
             boxes[:, 1] *= scale_y
             boxes[:, 3] *= scale_y
+            
+            keep = (boxes[:, 2] > boxes[:, 0]) & (boxes[:, 3] > boxes[:, 1])
+            boxes = boxes[keep]
+            labels = labels[keep]
 
-        # Process for DINO (Normalization)
+        if len(boxes) == 0:
+            boxes = torch.zeros((0, 4), dtype=torch.float32)
+            labels = torch.zeros((0,), dtype=torch.int64)
+
         inputs = self.processor(images=image_resized, return_tensors="pt")
         image_tensor = inputs.pixel_values.squeeze(0) 
 
