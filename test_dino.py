@@ -15,9 +15,9 @@ CONFIG = {
     "data_root": "./dataset_node21",
     "images_dir": "cxr_images/proccessed_mha",
     "metadata_file": "metadata.csv",
-    "checkpoint_path": "best_node21_dino.pth", 
+    "checkpoint_path": "current_best.pth", 
     "device": "cuda" if torch.cuda.is_available() else "cpu",
-    "model_name": "microsoft/rad-dino-maira-2",
+    "model_name": "./dino_weights",
     "target_size": (518, 518),
     "iou_threshold": 0.1,       # Hit criteria
     "score_threshold": 0.05,    # Minimum confidence to draw a box
