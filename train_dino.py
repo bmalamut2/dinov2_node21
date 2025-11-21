@@ -128,8 +128,8 @@ class DINOFasterRCNN(torch.nn.Module):
                 return {"0": features}
 
         anchor_generator = AnchorGenerator(
-            sizes=((16, 32, 64, 128, 256),),
-            aspect_ratios=((0.5, 1.0, 2.0),)
+            sizes=((8, 16, 32, 64),),
+            aspect_ratios=((1.0),) * 1
         )
         
         roi_pooler = torchvision.ops.MultiScaleRoIAlign(
@@ -141,7 +141,12 @@ class DINOFasterRCNN(torch.nn.Module):
             num_classes=num_classes,
             rpn_anchor_generator=anchor_generator,
             box_roi_pool=roi_pooler,
-            image_mean=[0,0,0], image_std=[1,1,1] # Skip internal normalization (done by processor)
+            image_mean=[0,0,0], image_std=[1,1,1], # Skip internal normalization (done by processor)
+
+            rpn_batch_size_per_image=256,
+            rpn_positive_fraction=0.5,
+            rpn_fg_iou_thresh=0.5,
+            rpn_bg_iou_thresh=0.3
         )
 
     def forward(self, images, targets=None):
